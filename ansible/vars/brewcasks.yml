@@ -1,0 +1,15 @@
+---
+# This file contains the casks to be installed by the homebrew_cask  module
+#  ...# http://docs.ansible.com/ansible/latest/homebrew_cask_module.html
+# the format of this file is:
+
+#brewcasks:
+#  -
+#    name:   <name of the keg to install>
+#    state:  <present|absenthead>
+
+
+brewcasks:
+  -
+    name:   atom
+    state:  present

@@ -1,0 +1,15 @@
+---
+# This file contains the taps to be installed by the gem module
+# http://docs.ansible.com/ansible/latest/gem_module.html
+# the format of this file is:
+
+#brewtaps:
+#  -
+#    name:   <name of the gem to install>
+#    state:  <present|absent|latest>
+#  ...
+
+rubygems:
+  -
+    name:   github-pages
+    state:  latest

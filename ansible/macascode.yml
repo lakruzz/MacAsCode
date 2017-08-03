@@ -1,0 +1,31 @@
+---
+- hosts: all
+  vars_files:
+    - vars/brewkegs.yml
+    - vars/brewkegs2.yml
+    - vars/brewcasks.yml
+    - vars/brewtaps.yml
+    - vars/rubygems.yml
+
+  tasks:
+    - name: Setup brew taps
+      homebrew_tap: "name={{ item.name }} state={{ item.state }}"
+      with_items: "{{ brewtaps }}"
+
+    - name: Install kegs with brew
+      homebrew:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items: "{{ brewkegs }}"
+
+    - name: Install apps with brew-cask
+      homebrew_cask: "name={{ item.name }} state={{ item.state }}"
+      with_items: "{{ brewcasks }}"
+
+    - name: Install Ruby gems
+      gem: "name={{ item.name }} state={{ item.state }}"
+      with_items: "{{ rubygems }}"
+
+    - name: Scripted installs
+      script: "{{ item.script }} {{ item.args }}"
+      with_items: "{{ scripts }}"

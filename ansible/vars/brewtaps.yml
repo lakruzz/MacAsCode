@@ -1,0 +1,17 @@
+---
+# This file contains the taps to be installed by the homebrew_tap module
+# http://docs.ansible.com/ansible/latest/homebrew_tap_module.html
+# the format of this file is:
+
+#brewtaps:
+#  -
+#    name:   <name of the tap to install>
+#    state:  <present|absent>
+#  ...
+
+
+
+brewtaps:
+  -
+    name:   praqma/praqma-tap
+    state:  present

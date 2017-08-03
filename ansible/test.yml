@@ -1,0 +1,14 @@
+---
+- hosts: all
+  vars_files:
+    - vars/filetestruns.yml
+
+  tasks:
+#    - name: Scripted installs
+#      script: "{{ item.script }} {{ item.args }}"
+#      with_items: "{{ scripts }}"
+    - name: Shell installs
+      shell: "{{ item.run }} > {{ item.name}}.log"
+      args:
+        creates:  "{{ item.test }}"
+      with_items: "{{ filetestruns }}"
