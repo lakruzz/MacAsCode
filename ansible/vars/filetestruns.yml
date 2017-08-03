@@ -5,18 +5,18 @@
 
 #brewtaps:
 #  -
-#    name:   <name of the programm to install>
-#    run:    <the command to run>
-#    test:   <the file test (test for existence) to determine to run or not>
+#    name:     <name of the programm to install>
+#    run:      <the command to run>
+#    creates:  <the file existence to determine to run or not>
 #  ...
 
 
 filetestruns:
   -
-    name:   Oh-my-zsh
-    run:    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    test:    ~/.oh-my-zsh/oh-my-zsh.sh
-  -
-    name:   Dummy
-    run:    scripts/test
-    test:   ~/doesntexist
+    name:    Oh-my-zsh
+    run:     scripts/oh-my-zsh
+    creates: ~/.oh-my-zsh/oh-my-zsh.sh
+#  -
+#    name:    Dummy
+#    run:     scripts/test
+#    creates:    ~/doesntexist

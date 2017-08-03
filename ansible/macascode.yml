@@ -2,10 +2,10 @@
 - hosts: all
   vars_files:
     - vars/brewkegs.yml
-    - vars/brewkegs2.yml
     - vars/brewcasks.yml
     - vars/brewtaps.yml
     - vars/rubygems.yml
+    - vars/filetestruns.yml
 
   tasks:
     - name: Setup brew taps
@@ -26,6 +26,8 @@
       gem: "name={{ item.name }} state={{ item.state }}"
       with_items: "{{ rubygems }}"
 
-    - name: Scripted installs
-      script: "{{ item.script }} {{ item.args }}"
-      with_items: "{{ scripts }}"
+    - name: Shell executions based on file tests
+      shell: "{{ item.run }} > {{ item.name}}.log"
+      args:
+        creates:  "{{ item.creates }}"
+      with_items: "{{ filetestruns }}"
