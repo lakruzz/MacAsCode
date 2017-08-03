@@ -13,3 +13,6 @@ brewcasks:
   -
     name:   atom
     state:  present
+  -
+    name:   google-chrome
+    state:  present
