@@ -20,10 +20,17 @@ Currently 1) and 3) are still manual - but my intension is to nail them too.
 The Ansible play-book obviously requires _Ansible_ to be installed to work. But it also requires
 the Mac de facto default package management system _Homebrew_ to be installed.
 
-Homebrew has a sub command `brew doctor` which will let you know if your Homebrew setup is good. And the `brew list ...` command will return an error if the keg queried isn't installed - so a fail safe two-line bootstrap for this repo could look like this (copy and paste into your terminal):
+Homebrew has a sub command `brew doctor` which will let you know if your Homebrew setup is good.  so a fail safe bootstrap for this repo could look like this (copy and paste into your terminal):
 
 ```shell
 brew doctor || ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+If it runs, you will have to login to use `sudo`.
+
+Next; the `brew list ...` command will return an error if the keg queried isn't installed - so Ansible will install safely running this command:
+
+```shell
 brew doctor && brew list ansible || brew install ansible
 ```
 
