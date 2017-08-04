@@ -1,0 +1,196 @@
+#!/usr/bin/perl
+require 5.14.0;
+use strict;                # http://perldoc.perl.org/strict.html
+use Carp;                  # http://perldoc.perl.org/Carp.html
+use Cwd;                   # http://perldoc.perl.org/Cwd.html
+use Getopt::Long;          # http://perldoc.perl.org/Getopt/Long.html
+use Pod::Usage;            # http://perldoc.perl.org/Pod/Usage.html
+use File::chdir;
+
+
+# This script installs caffeine v 1.1.1
+# http://lightheadsw.com/caffeine/
+# Caffeine is a small freeware utility from Lighthead Software
+# When enabled it will prevent you Mac from going into suspension mode
+
+our %params = (
+  name    => "Caffeine",
+  url     => "http://lightheadsw.com/files/releases/com.lightheadsw.Caffeine/Caffeine1.1.1.zip",
+  creates => "/Applications/Caffeine.app",
+  state   => "present",
+  zip     => '',
+  verbose => 1,
+  rmzip   => 1,
+);
+
+# self-refering default - needs to be set after the definition of %params
+$params{zip} = "$ENV{'HOME'}/Downloads/$params{name}.zip";
+
+
+GetOptions(
+  (
+    "name=s"       => \$params{name},
+		"url=s"        => \$params{url},
+		"creates=s"    => \$params{creates},
+		"state=s"      => \$params{state},
+		"zip=s"        => \$params{zip},
+    "verbose!"     => \$params{verbose},
+    "rmzip!"       => \$params{rmzip},
+		"help"         => sub { pod2usage(-exitval => 0, -verbose => 2) }
+	)
+) || pod2usage(-exitval => 1, -verbose => 0);
+
+(defined($params{name}) && defined($params{url}) && defined($params{creates}))
+|| pod2usage(-exitval => 1, -verbose => 0);
+
+
+
+if($params{state} eq "present"){
+  if( -e $params{creates} ){
+    print "$params{name} is already installed\n";
+    exit 0;
+  } else {
+    my $cwd = cwd();
+    cmd( command => "curl -fsSL $params{url} -o $params{zip}");
+    croak unless $CWD = '/Applications';
+    cmd( command => "unzip -o $params{zip}");
+    cmd( command => "rm $params{zip}");
+    croak unless $CWD = $cwd;
+    print "$params{name} is succesfully installed\n";
+    exit 0;
+  };
+} else {
+   if ($params{state} eq "absent"){
+    if( -e $params{creates} ){
+      cmd( command => "rm -rf $params{creates}");
+      print "$params{name} is succesfully uninstalled\n";
+      exit 0;
+    } else {
+      print "$params{name} is not installed - nothing to remove\n";
+      exit 0;
+    }
+  }
+
+sub cmd ($) {
+    my %opt = @_;
+    croak "input parameter for key 'command' required" unless ( $opt{command} );
+
+    # Set the defaults if unset
+    defined( $opt{die_on_err} )   ||  do {$opt{die_on_err}   = 1};
+		defined( $opt{merge_errout} ) ||  do {$opt{merge_errout} = 1};
+		defined( $opt{verbose} )      ||  do {$opt{verbose}      =  $params{verbose}};
+
+    my $cmd = ($opt{merge_errout}) ? $opt{command}.' 2>&1' : $opt{command};
+		$opt{verbose} && print $opt{command}."\n";
+
+    my $res = join('', qx($cmd));
+
+    # Report errors unless we expect the call to generate non-zero exit value
+    if ( $opt{die_on_err} && $? ) {
+      print $res;
+      exit $?;
+    };
+
+    return $res;
+}
+
+};
+
+=pod
+
+=head1 NAME
+
+caffeine - Installs Caffeine from a URL.
+
+=head1 SYNOPSIS
+
+caffeine [--name name] [--url url] [--creates file]  [--state absent|present] [--zip local_zip] [--[no-]verbose] --[no-]rmzip
+
+caffeine --help
+
+B<Example>
+
+  caffeine
+
+Will install Caffeine on your Mac using the default values.
+
+  caffeine   --state absent --no-verbose
+
+Will uninstall Caffeine - silently
+
+=head1 OPTIONS
+
+The following switches exists and can all be overridden.
+
+=over 8
+
+=item B< C<< --name name >> >
+
+Where C<name> is the name of the application to install.
+
+Default is C<Caffeine>
+
+=item B< C<< --url url >> >
+
+Where C<url> is the URL from where to get the zip archive
+
+Default is C<http://lightheadsw.com/files/releases/com.lightheadsw.Caffeine/Caffeine1.1.1.zip>
+
+
+=item B< C<< --creates file >> >
+
+Where C<file> is the file/folder that is created by the install. The file/folder is used as a
+semaphor to run or not.
+
+E.g. If the application is already installed and you rerun it - it will do noting and relpy with
+
+  Caffeine is already installed
+
+Default is C</Applications/Caffeine.app>
+
+=item B< C<< --state present|absent >> >
+
+Where C<present> will install and C<absent> will uninstall.
+
+Default is C<present>
+
+=item B< C<< --zip local_zip >> >
+
+Where C<local_zip> is the location of the locally stored zip file, retrieved from C<url>.
+
+Default is a zip file in the Downloads folder based on C<name> effectively:  C<~/Downloads/Caffeine.zip>
+
+
+=item B< C<< --[no]rmzip >> >
+
+Where C<--rmzip> will delete the C<local_zip>  after succesful install while C<--normzip> will leave it as is.
+
+Default is C<--rmzip>
+
+
+=item B< C<< --help >> >
+
+Prints the manual page.
+
+=back
+
+=head1 DESCRIPTION
+
+
+B<Copyright>
+
+L<Lars Kruse, 2017|http://github.com/lakruzz>
+
+B<License>
+
+L<GPLv3|https://www.gnu.org/licenses/gpl-3.0.en.html>
+
+B<Repository>
+
+L<lakruzz/MacAsCode|http://github.com/lakruzz/MacAsCode>
+
+B<Support>
+
+L<Use the issue system|http://github.com/lakruzz/MacAsCode/issues> in the repo.
+
+=cut

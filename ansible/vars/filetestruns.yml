@@ -16,6 +16,10 @@ filetestruns:
     name:    Oh-my-zsh
     run:     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     creates: ~/.oh-my-zsh/oh-my-zsh.sh
+  -
+    name:    Caffeinie
+    run:     scripts/caffeine
+    creates: /Applications/Caffeinie.app
 #  -
 #    name:    Dummy
 #    run:     scripts/test

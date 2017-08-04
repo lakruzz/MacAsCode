@@ -16,3 +16,6 @@ brewcasks:
   -
     name:   google-chrome
     state:  present
+  -
+    name:   slack
+    state:  present
