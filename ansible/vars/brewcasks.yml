@@ -19,3 +19,9 @@ brewcasks:
   -
     name:   slack
     state:  present
+  -
+    name:   google-backup-and-sync
+    state:  present
+  -
+    name:   caffeine
+    state:  present
