@@ -62,11 +62,16 @@ ansible-playbook ansible/macascode.yml -i ansible/hosts
 
 ## Configure
 
-$1 $2 $3: "Full name" "Git-Email@email.com" "Github Username"'
 
+
+```shell
+GITHUB_NAME="Full name"
+GITHUB_EMAIL="Git-Email@email.com"
+GTIHUB_HANDLE="Github Username"
 git phlow mkalias
-git config --global user.name "$1"
-git config --global user.email "$2"
+git config --global user.name "$GITHUB_NAME"
+git config --global user.email "$GITHUB_EMAIL"
 git config --global merge.tool opendiff
-git config --global github.user $3
-ghi config --auth $3
+git config --global github.user $GITHUB_HANDLE
+ghi config --auth $GITHUB_HANDLE
+```
