@@ -31,3 +31,6 @@ brewcasks:
   -
     name:   sketchup
     state:  present
+  -
+    name:   font-roboto-mono-for-powerline
+    state:  present
