@@ -26,3 +26,15 @@ brewkegs:
   -
     name:   imagemagick
     state:  latest
+  -
+    name:   bash-completion
+    state:  latest
+  -
+    name:   docker
+    state:  latest
+  -
+    name:   docker-machine
+    state:  latest
+  -
+    name:   docker-compose
+    state:  latest

@@ -18,7 +18,7 @@
         state: "{{ item.state }}"
       with_items: "{{ brewkegs }}"
 
-    - name: Install apps with brew-cask
+    - name: Install casks with brew-cask
       homebrew_cask: "name={{ item.name }} state={{ item.state }}"
       with_items: "{{ brewcasks }}"
 

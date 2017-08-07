@@ -25,3 +25,9 @@ brewcasks:
   -
     name:   caffeine
     state:  present
+  -
+    name:   gimp
+    state:  present
+  -
+    name:   sketchup
+    state:  present
