@@ -1,0 +1,45 @@
+---
+# This file contains the git-config setting to be installed by the git_config module
+# http://docs.ansible.com/ansible/latest/git_config_module.html
+# the format of this file is:
+
+#gitconfigs:
+#  -
+#    name:   <setting>
+#    scope:  <local|global|system>
+#    value:  <value>
+
+
+gitconfigs:
+  -
+    name:   core.editor
+    scope:  global
+    value:  nano
+  -
+    name:   alias.tree
+    scope:  global
+    value:  log --graph --full-history --all --color --date=short   --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s   %C(bold)(%an)%Creset"
+  -
+    name:   alias.undo-commit
+    scope:  global
+    value:  reset --soft HEAD^
+  -
+    name:   alias.addremove
+    scope:  global
+    value:  add -A .
+  -
+    name:   alias.swallow-previous
+    scope:  global
+    value:  '!git reset --soft HEAD~$1 && git commit -m"$(git log   --format=%B  HEAD..HEAD@{1})"'
+  -
+    name:   alias.commit-again
+    scope:  global
+    value:  '!git commit -m"$(git log --format=%B  HEAD..HEAD@{1})"'
+  -
+    name:   alias.co
+    scope:  global
+    value:  checkout
+  -
+    name:   alias.new
+    scope:  global
+    value:  '!git log $1@{1}..$1@{0} "$@"'

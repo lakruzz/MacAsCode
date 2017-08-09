@@ -16,7 +16,7 @@ brewkegs:
     state:  latest
   -
     name:   git
-    state:  present
+    state:  latest
   -
     name:   git-phlow
     state:  latest

@@ -34,3 +34,6 @@ brewcasks:
   -
     name:   font-roboto-mono-for-powerline
     state:  present
+  -
+    name:   font-lato
+    state:  present

@@ -6,6 +6,7 @@
     - vars/brewtaps.yml
     - vars/rubygems.yml
     - vars/filetestruns.yml
+    - vars/gitconfigs.yml
 
   tasks:
     - name: Setup brew taps
@@ -31,3 +32,10 @@
       args:
         creates:  "{{ item.creates }}"
       with_items: "{{ filetestruns }}"
+
+    - name: Configure git
+      git_config:
+        name:  "{{ item.name }}"
+        scope: "{{ item.scope }}"
+        value: "{{ item.value }}"
+      with_items: "{{ gitconfigs }}"
