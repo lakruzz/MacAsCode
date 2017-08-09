@@ -1,6 +1,3 @@
----
-url: http://www.nickhammond.com/automating-development-environment-ansible/
----
 
 # MacAsCode
 Configuring my Mac to the state I like it, coming from nowhere, using only executable code from this repo.
@@ -59,6 +56,12 @@ cd MacAsCode-master
 ```shell
 ansible-playbook ansible/macascode.yml -i ansible/hosts
 ```
+
+Or even simpler - if you have cloned the repo (as opposed to dowloaded the `.zip`)
+```shell
+./update
+```
+
 
 ## Configure
 
