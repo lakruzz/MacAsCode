@@ -37,3 +37,6 @@ brewcasks:
   -
     name:   font-lato
     state:  present
+  -
+    name:   virtualbox
+    state:  present
