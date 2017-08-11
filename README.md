@@ -51,20 +51,28 @@ unzip -o MacAsCode.zip
 cd MacAsCode-master
 ```
 
-## Run the play-book
+## Run the default manuscript
 
 ```shell
 ansible-playbook ansible/macascode.yml -i ansible/hosts
 ```
+It will run the manuscript defined in `./manuscripts/default.yml`.
 
 Or even simpler - if you have cloned the repo (as opposed to dowloaded the `.zip`)
 ```shell
 ./update
 ```
 
+### I want to run my own manuscript!
+
+Use `default.yml` as an example, make your own copy, tweak it to your liking and run it like this:
+
+```shell
+ansible-playbook  test.yml --extra-vars "manuscript=manuscripts/marcommachine.yml"
+```
+
 
 ## Configure
-
 
 
 ```shell

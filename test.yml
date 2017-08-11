@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - "{{ manuscript | default('./manuscripts/default.yml')}}"
+
+  tasks:
+
+    - name: Install kegs with brew
+      homebrew:
+        name: "{{ item.name }}"
+        state: "{{ item.state | default('present')}}"
+        update_homebrew: "{{ item.update_homebrew | default('no')}}"
+        upgrade_all: "{{ item.upgrade_all | default('no')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew') | list }}"
+
+    - name: Install casks with brew-cask
+      homebrew_cask:
+        name:  "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_cask') | list }}"
+
+    - name: Setup brew taps
+      homebrew_tap:
+        name:  "{{ item.name }}"
+        state: "{{ item.state | default('present')}}"
+        url:   "{{ item.url }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_tap') | list }}"
+
+    - name: Configure git
+      git_config:
+        name:  "{{ item.name  }}"
+        scope: "{{ item.scope | default('system')}}"
+        value: "{{ item.value }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'git_config') | list }}"
+
+    - name: Install Ruby gems
+      gem:
+        name:     "{{ item.name }}"
+        state:    "{{ item.state }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'gem') | list }}"
+
+    - name: Shell executions
+      shell: "{{ item.shell }} > {{ item.name }}.log"
+      args:
+        creates:  "{{ item.creates }}"
+        removes:  "{{ item.removes }}"
+        chdir:    "{{ item.chdir | default('.')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'shell') | list }}"

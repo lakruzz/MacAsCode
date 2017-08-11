@@ -1,12 +1,13 @@
 ---
 - hosts: all
+
   vars_files:
-    - vars/brewkegs.yml
-    - vars/brewcasks.yml
-    - vars/brewtaps.yml
-    - vars/rubygems.yml
-    - vars/filetestruns.yml
-    - vars/gitconfigs.yml
+    - manuscripts/brewkegs.yml
+    - manuscripts/brewcasks.yml
+    - manuscripts/brewtaps.yml
+    - manuscripts/rubygems.yml
+    - manuscripts/shells.yml
+    - manuscripts/gitconfigs.yml
 
   tasks:
     - name: Setup brew taps

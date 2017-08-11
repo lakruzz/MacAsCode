@@ -1,0 +1,192 @@
+---
+# This file contains the items to be installed the format of this file is:
+
+#### homebrew_tap:
+# http://docs.ansible.com/ansible/latest/homebrew_tap_module.html
+#  -
+#    module: homebrew_tap                 [manadory]
+#    name:   <name of the tap to install> [manadory]
+#    state:  <present|absent>             [optional, default('present')]
+#    url:    <url to tap>                 [optional (GitHub is assumed)]
+
+
+#### git_config syntax
+# http://docs.ansible.com/ansible/latest/git_config_module.html
+#  -
+#    module: git_config                   [manadory]
+#    name:   <name of attr to update>     [manadory]
+#    scope:  <local|global|system>        [optional, default('system')]
+#    repo:   <git repo>                   [optional unless state=local]
+#    value:  <value to write>             [mandatory]
+
+#### gem syntax:
+#  -
+#    module: gem
+#    name:   <name of the gem to install> [mandatory]
+#    state:  <present|absent|latest>      [optional, default('present')]
+
+
+#### shell syntax:
+# http://docs.ansible.com/ansible/latest/shell_module.html
+#  -
+#    module:   shell
+#    name:     <header>                    [optional]
+#    shell:    <command to run>            [required]
+#    chdir:    <path>                      [optional]
+#    creates:  <the file to test>          [optional]
+#    removes:  <the file to test>          [optional]
+
+####  homebrew:
+# http://docs.ansible.com/ansible/latest/homebrew_module.html
+#  -
+#    module: homebrew
+#    name:   <name of the keg to install>  [mandatory]
+#    state:  <present|absent|head|
+#              latest|linked|unlinked>     [optional default('present')]
+#    update_homebrew: <yes|no>             [optional, default('no')]
+#    upgrade_all: <yes|no>                 [optional, default('no')]
+
+#### homebrew_casks syntax:
+# http://docs.ansible.com/ansible/latest/homebrew_cask_module.html
+#  -
+#    module: homebrew_cask                  [mandatory]
+#    name:   <name of the keg to install>   [mandatory]
+#    state:  <present|absent>               [optional default('present')]
+
+
+
+
+installs:
+  -
+    module: homebrew_cask
+    name:   atom
+    state:  present
+  -
+    module: homebrew_cask
+    name:   google-chrome
+    state:  present
+  -
+    module: homebrew_cask
+    name:   slack
+    state:  present
+  -
+    module: homebrew_cask
+    name:   google-backup-and-sync
+    state:  present
+  -
+    module: homebrew_cask
+    name:   caffeine
+    state:  present
+  -
+    module: homebrew_cask
+    name:   gimp
+    state:  present
+  -
+    module: homebrew_cask
+    name:   sketchup
+    state:  present
+  -
+    module: homebrew_cask
+    name:   font-roboto-mono-for-powerline
+    state:  present
+  -
+    module: homebrew_cask
+    name:   font-lato
+    state:  present
+  -
+    module: homebrew_cask
+    name:   virtualbox
+    state:  present
+
+  -
+    module: homebrew
+    name:   ghi
+    state:  latest
+    update_homebrew: yes
+  -
+    module: homebrew
+    name:   git
+    state:  latest
+  -
+    module: homebrew
+    name:   git-phlow
+    state:  latest
+  -
+    module: homebrew
+    name:   zsh
+    state:  latest
+  -
+    module: homebrew
+    name:   imagemagick
+    state:  latest
+  -
+    module: homebrew
+    name:   bash-completion
+    state:  latest
+  -
+    module: homebrew
+    name:   docker
+    state:  latest
+  -
+    module: homebrew
+    name:   docker-machine
+    state:  latest
+  -
+    module: homebrew
+    name:   docker-compose
+    state:  latest
+  -
+    module:  shell
+    name:    Oh-my-zsh
+    shell:   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    creates: ~/.oh-my-zsh/oh-my-zsh.sh
+  -
+    module: homebrew_tap
+    name:   praqma/praqma-tap
+  -
+    module: homebrew_tap
+    name:   caskroom/fonts
+  -
+    module: git_config
+    name:   core.editor
+    scope:  global
+    value:  nano
+  -
+    module: git_config
+    name:   alias.tree
+    scope:  global
+    value:  log --graph --full-history --all --color --date=short   --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s   %C(bold)(%an)%Creset"
+  -
+    module: git_config
+    name:   alias.undo-commit
+    scope:  global
+    value:  reset --soft HEAD^
+  -
+    module: git_config
+    name:   alias.addremove
+    scope:  global
+    value:  add -A .
+  -
+    module: git_config
+    name:   alias.swallow-previous
+    scope:  global
+    value:  '!git reset --soft HEAD~$1 && git commit -m"$(git log   --format=%B  HEAD..HEAD@{1})"'
+  -
+    module: git_config
+    name:   alias.commit-again
+    scope:  global
+    value:  '!git commit -m"$(git log --format=%B  HEAD..HEAD@{1})"'
+  -
+    module: git_config
+    name:   alias.co
+    scope:  global
+    value:  checkout
+  -
+    module: git_config
+    name:   alias.new
+    scope:  global
+    value:  '!git log $1@{1}..$1@{0} "$@"'
+  -
+    module: gem
+    name:   github-pages
+    state:  latest
