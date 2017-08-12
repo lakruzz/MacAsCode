@@ -180,3 +180,10 @@ installs:
     module: gem
     name:   github-pages
     state:  latest
+  -
+    module: lineinfile
+    path:   ~/.zshrc
+    state:  present
+    regexp: ^ZSH_THEME=".*
+    line:   ZSH_THEME="robbyrussell"
+    backup: yes

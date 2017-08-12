@@ -1,62 +1,18 @@
 ---
-# This file contains the items to be installed the format of this file is:
-
-#### homebrew_tap:
-# http://docs.ansible.com/ansible/latest/homebrew_tap_module.html
-#  -
-#    module: homebrew_tap                 [manadory]
-#    name:   <name of the tap to install> [manadory]
-#    state:  <present|absent>             [optional, default('present')]
-#    url:    <url to tap>                 [optional (GitHub is assumed)]
-
-
-#### git_config syntax
-# http://docs.ansible.com/ansible/latest/git_config_module.html
-#  -
-#    module: git_config                   [manadory]
-#    name:   <name of attr to update>     [manadory]
-#    scope:  <local|global|system>        [optional, default('system')]
-#    repo:   <git repo>                   [optional unless state=local]
-#    value:  <value to write>             [mandatory]
-
-#### gem syntax:
-#  -
-#    module: gem
-#    name:   <name of the gem to install> [mandatory]
-#    state:  <present|absent|latest>      [optional, default('present')]
-
-
-#### shell syntax:
-# http://docs.ansible.com/ansible/latest/shell_module.html
-#  -
-#    module:   shell
-#    name:     <header>                    [optional]
-#    shell:    <command to run>            [required]
-#    chdir:    <path>                      [optional]
-#    creates:  <the file to test>          [optional]
-#    removes:  <the file to test>          [optional]
-
-####  homebrew:
-# http://docs.ansible.com/ansible/latest/homebrew_module.html
-#  -
-#    module: homebrew
-#    name:   <name of the keg to install>  [mandatory]
-#    state:  <present|absent|head|
-#              latest|linked|unlinked>     [optional default('present')]
-#    update_homebrew: <yes|no>             [optional, default('no')]
-#    upgrade_all: <yes|no>                 [optional, default('no')]
-
-#### homebrew_casks syntax:
-# http://docs.ansible.com/ansible/latest/homebrew_cask_module.html
-#  -
-#    module: homebrew_cask                  [mandatory]
-#    name:   <name of the keg to install>   [mandatory]
-#    state:  <present|absent>               [optional default('present')]
-
-
 
 
 installs:
+  -
+    module: lineinfile
+    path:   ~/.zshrc
+    state:  present
+    regexp: ^ZSH_THEME=".*
+    line:   ZSH_THEME="agnoster"
+    backup: yes
+  -
+    module: homebrew
+    name:   ruby
+    state:  latest
   -
     module: homebrew
     name:   ansible
@@ -101,7 +57,6 @@ installs:
     module: homebrew_cask
     name:   virtualbox
     state:  present
-
   -
     module: homebrew
     name:   ghi

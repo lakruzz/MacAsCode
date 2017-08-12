@@ -54,7 +54,7 @@ cd MacAsCode-master
 ## Run the default manuscript
 
 ```shell
-ansible-playbook ansible/macascode.yml -i ansible/hosts
+ansible-playbook macascode.yml
 ```
 It will run the manuscript defined in `./manuscripts/default.yml`.
 
@@ -68,7 +68,7 @@ Or even simpler - if you have cloned the repo (as opposed to dowloaded the `.zip
 Use `default.yml` as an example, make your own copy, tweak it to your liking and run it like this:
 
 ```shell
-ansible-playbook  test.yml --extra-vars "manuscript=manuscripts/marcommachine.yml"
+ansible-playbook  macascode.yml --extra-vars "manuscript=manuscripts/marcommachine.yml"
 ```
 
 
@@ -86,3 +86,9 @@ git config --global merge.tool opendiff
 git config --global github.user $GITHUB_HANDLE
 ghi config --auth $GITHUB_HANDLE
 ```
+
+# Syntax
+
+This script supports a number of selected Ansible modules and in a selected scope of their capacity.
+
+You should write your own manuscript for the playbook using the syntax described [here](syntax.md) 

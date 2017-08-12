@@ -7,6 +7,13 @@
 
   tasks:
 
+    - name: Setup brew taps
+      homebrew_tap:
+        name:  "{{ item.name }}"
+        state: "{{ item.state | default('present')}}"
+        url:   "{{ item.url }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_tap') | list }}"
+
     - name: Install kegs with brew
       homebrew:
         name: "{{ item.name }}"
@@ -20,13 +27,6 @@
         name:  "{{ item.name }}"
         state: "{{ item.state }}"
       with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_cask') | list }}"
-
-    - name: Setup brew taps
-      homebrew_tap:
-        name:  "{{ item.name }}"
-        state: "{{ item.state | default('present')}}"
-        url:   "{{ item.url }}"
-      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_tap') | list }}"
 
     - name: Configure git
       git_config:
@@ -48,3 +48,21 @@
         removes:  "{{ item.removes }}"
         chdir:    "{{ item.chdir | default('.')}}"
       with_items: "{{ installs | selectattr('module', 'equalto', 'shell') | list }}"
+
+    - name: Configurations
+      lineinfile:
+        path:     "{{ item.path }}"
+        state:    "{{ item.state | default('present') }}"
+        line:     "{{ item.line }}"
+        regexp:   "{{ item.regexp }}"
+        insertafter:  "{{ item.insertafter | default('EOF') }}"
+        backup:   "{{ item.backup | default('no')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'lineinfile') | list }}"
+
+#    module: lineinfile                     [mandatory]
+#    path:   <file to modify>               [mandatory]
+#    state:  <present|absent>               [optional default('present')]
+#    line:   <line to insert>               [optional - unless state=present]
+#    regexp: <regexp tp match>              [optional]
+#    insertafter: <no|yes>                  [optional | default('EOF)]
+#    backup: <no|yes>                       [optional | default('no')]
