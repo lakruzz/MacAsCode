@@ -75,15 +75,7 @@ installs:
     state:  present
   -
     module: homebrew_cask
-    name:   caffeine
-    state:  present
-  -
-    module: homebrew_cask
     name:   gimp
-    state:  present
-  -
-    module: homebrew_cask
-    name:   sketchup
     state:  present
   -
     module: homebrew_cask
@@ -97,7 +89,6 @@ installs:
     module: homebrew_cask
     name:   virtualbox
     state:  present
-
   -
     module: homebrew
     name:   ghi
@@ -106,6 +97,10 @@ installs:
   -
     module: homebrew
     name:   git
+    state:  latest
+  -
+    module: homebrew
+    name:   ansible
     state:  latest
   -
     module: homebrew
@@ -181,11 +176,6 @@ installs:
     name:   alias.co
     scope:  global
     value:  checkout
-  -
-    module: git_config
-    name:   alias.new
-    scope:  global
-    value:  '!git log $1@{1}..$1@{0} "$@"'
   -
     module: gem
     name:   github-pages

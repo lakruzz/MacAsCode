@@ -1,4 +1,4 @@
 #!/usr/bin/perl
 system("git pull");
-system("ansible-playbook -i ansible/hosts ansible/macascode.yml");
+system("ansible-playbook macascode.yml");
 system("gem update");

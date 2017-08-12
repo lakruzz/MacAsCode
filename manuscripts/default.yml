@@ -58,6 +58,10 @@
 
 installs:
   -
+    module: homebrew
+    name:   ansible
+    state:  latest
+  -
     module: homebrew_cask
     name:   atom
     state:  present

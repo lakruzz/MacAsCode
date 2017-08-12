@@ -1,42 +1,50 @@
 ---
-- hosts: all
+- hosts: localhost
+  connection: local
 
   vars_files:
-    - manuscripts/brewkegs.yml
-    - manuscripts/brewcasks.yml
-    - manuscripts/brewtaps.yml
-    - manuscripts/rubygems.yml
-    - manuscripts/shells.yml
-    - manuscripts/gitconfigs.yml
+    - "{{ manuscript | default('./manuscripts/default.yml')}}"
 
   tasks:
-    - name: Setup brew taps
-      homebrew_tap: "name={{ item.name }} state={{ item.state }}"
-      with_items: "{{ brewtaps }}"
 
     - name: Install kegs with brew
       homebrew:
         name: "{{ item.name }}"
-        state: "{{ item.state }}"
-      with_items: "{{ brewkegs }}"
+        state: "{{ item.state | default('present')}}"
+        update_homebrew: "{{ item.update_homebrew | default('no')}}"
+        upgrade_all: "{{ item.upgrade_all | default('no')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew') | list }}"
 
     - name: Install casks with brew-cask
-      homebrew_cask: "name={{ item.name }} state={{ item.state }}"
-      with_items: "{{ brewcasks }}"
+      homebrew_cask:
+        name:  "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_cask') | list }}"
 
-    - name: Install Ruby gems
-      gem: "name={{ item.name }} state={{ item.state }}"
-      with_items: "{{ rubygems }}"
-
-    - name: Shell executions based on file tests
-      shell: "{{ item.run }} > {{ item.name}}.log"
-      args:
-        creates:  "{{ item.creates }}"
-      with_items: "{{ filetestruns }}"
+    - name: Setup brew taps
+      homebrew_tap:
+        name:  "{{ item.name }}"
+        state: "{{ item.state | default('present')}}"
+        url:   "{{ item.url }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_tap') | list }}"
 
     - name: Configure git
       git_config:
-        name:  "{{ item.name }}"
-        scope: "{{ item.scope }}"
+        name:  "{{ item.name  }}"
+        scope: "{{ item.scope | default('system')}}"
         value: "{{ item.value }}"
-      with_items: "{{ gitconfigs }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'git_config') | list }}"
+
+    - name: Install Ruby gems
+      gem:
+        name:     "{{ item.name }}"
+        state:    "{{ item.state }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'gem') | list }}"
+
+    - name: Shell executions
+      shell: "{{ item.shell }} > {{ item.name }}.log"
+      args:
+        creates:  "{{ item.creates }}"
+        removes:  "{{ item.removes }}"
+        chdir:    "{{ item.chdir | default('.')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'shell') | list }}"
