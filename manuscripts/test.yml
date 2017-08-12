@@ -1,0 +1,48 @@
+---
+# This manuscript fixes a specific problem that the ruby gems fails to install
+# due to permission problems as described in
+# https://stackoverflow.com/questions/31972968
+# https://stackoverflow.com/questions/14607193
+# ...and many more
+#
+# In short the problem is this:
+# Ruby is preinstalled on Mac and sits in /usr/bin - which you don't have
+# access to make changes to - so if you wanna make changes to Ruby install
+# you should get your own Ruby; use brew to make that happen:
+# installs:
+#  -
+#    module: homebrew
+#    name:   ruby
+#    state:  latest
+#
+# This installs Ruby in user/local/bin - where you want it.
+#
+# But on some versions of MacOs the /etc/paths file lists /usr/bin before
+# /usr/local/bin - this is wrong!
+#
+# https://stackoverflow.com/questions/34984870/#
+#
+# ...And it means that your newly installed  Ruby never comes into play.
+#
+# This maunscript puts user/local/bin on top
+#
+#
+# Run it like this
+# ansible-playbook  macascode.yml  -bK --extra-vars "manuscript=manuscripts/fix_usr_local_bin.yml"
+
+installs:
+  - module: test
+    parameters:
+      path: /etc/paths
+      state:  absent
+      regexp: /usr/local/bin
+    become: yes
+  -
+    module: test
+    parameters:
+      path:   /etc/paths
+      state:  present
+      regexp: /usr/local/bin
+      insertafter: BOF
+      line:   /usr/local/bin
+    become: yes
