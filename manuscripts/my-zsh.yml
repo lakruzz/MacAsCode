@@ -1,0 +1,35 @@
+---
+
+
+installs:
+  - module:  shell
+    parameters:
+      executable: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      creates:    ~/.oh-my-zsh/oh-my-zsh.sh
+
+  - module: lineinfile
+    parameters:
+      path:   ~/.zshrc
+      state:  present
+      regexp: ^ZSH_THEME=".*
+      line:   ZSH_THEME="agnoster"
+      backup: yes
+
+  - module: homebrew_cask
+    parameters:
+      name:   font-roboto-mono-for-powerline
+      state:  present
+
+  - module: homebrew
+    parameters:
+      name:   zsh
+      state:  latest
+
+  - module: homebrew_tap
+    parameters:
+      name:   caskroom/fonts
+
+  - module: homebrew
+    parameters:
+      name:   bash-completion
+      state:  latest

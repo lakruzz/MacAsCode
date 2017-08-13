@@ -1,0 +1,22 @@
+---
+
+installs:
+  - module: homebrew_cask
+    parameters:
+      name:   virtualbox
+      state:  present
+
+  - module: homebrew
+    parameters:
+      name:   docker
+      state:  latest
+
+  - module: homebrew
+    parameters:
+      name:   docker-machine
+      state:  latest
+
+  - module: homebrew
+    parameters:
+      name:   docker-compose
+      state:  latest

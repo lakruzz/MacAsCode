@@ -7,13 +7,14 @@
 #
 # In short the problem is this:
 # Ruby is preinstalled on Mac and sits in /usr/bin - which you don't have
-# access to make changes to - so if you wanna make changes to Ruby install
-# you should get your own Ruby; use brew to make that happen:
+# access to make changes to - so if you wanna make changes to Ruby you should
+# get your own Ruby; use homebrew to make that happen:
+#
 # installs:
-#  -
-#    module: homebrew
-#    name:   ruby
-#    state:  latest
+#  - module: homebrew
+#    parameters:
+#      name:   ruby
+#      state:  latest
 #
 # This installs Ruby in user/local/bin - where you want it.
 #
@@ -22,24 +23,26 @@
 #
 # https://stackoverflow.com/questions/34984870/#
 #
-# ...And it means that your newly installed  Ruby never comes into play.
+# ...And it means that your newly installed Ruby never comes into play.
 #
-# This maunscript puts user/local/bin on top
+# This maunscript simple puts user/local/bin on top it requires SUDO so run it
+# like this:
 #
-#
-# Run it like this
 # ansible-playbook  macascode.yml  -bK --extra-vars "manuscript=manuscripts/fix_usr_local_bin.yml"
 
 installs:
+  - module: lineinfile
+    parameters:
+      path: /etc/paths
+      state:  absent
+      regexp: /usr/local/bin
+    become: yes
   -
     module: lineinfile
-    path:   /etc/paths
-    state:  absent
-    regexp: /usr/local/bin
-  -
-    module: lineinfile
-    path:   /etc/paths
-    state:  present
-    regexp: /usr/local/bin
-    insertafter: BOF
-    line:   /usr/local/bin
+    parameters:
+      path:   /etc/paths
+      state:  present
+      regexp: /usr/local/bin
+      insertafter: BOF
+      line:   /usr/local/bin
+    become: yes

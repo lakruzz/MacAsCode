@@ -3,27 +3,21 @@
   connection: local
 
   vars_files:
-    - "{{ manuscript | default('./manuscripts/default-mac.yml')}}"
+    - "{{ manuscript | default('./manuscripts/default-ubuntu.yml')}}"
 
   tasks:
 
-    - name: Setup brew taps
-      homebrew_tap:
+    - name: Add apt repositories
+      apt_repository:
         "{{ item.parameters }}"
       become: "{{ item.become | default('false')}}"
-      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_tap') | list }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'apt_repository') | list }}"
 
-    - name: Install kegs with brew
-      homebrew:
+    - name: Install using apt
+      apt:
         "{{ item.parameters }}"
       become: "{{ item.become | default('false')}}"
-      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew') | list }}"
-
-    - name: Install casks with brew-cask
-      homebrew_cask:
-        "{{ item.parameters }}"
-      become: "{{ item.become | default('false')}}"
-      with_items: "{{ installs | selectattr('module', 'equalto', 'homebrew_cask') | list }}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'apt') | list }}"
 
     - name: Install Ruby gems
       gem:

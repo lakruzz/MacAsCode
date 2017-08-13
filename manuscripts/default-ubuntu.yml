@@ -1,0 +1,45 @@
+---
+
+
+installs:
+  - module: git_config
+    parameters:
+      name:   core.editor
+      scope:  global
+      value:  nano
+
+  - module: git_config
+    parameters:
+      name:   alias.tree
+      scope:  global
+      value:  log --graph --full-history --all --color --date=short   --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s   %C(bold)(%an)%Creset"
+
+  - module: git_config
+    parameters:
+      name:   alias.undo-commit
+      scope:  global
+      value:  reset --soft HEAD^
+
+  - module: git_config
+    parameters:
+      name:   alias.addremove
+      scope:  global
+      value:  add -A .
+
+  - module: git_config
+    parameters:
+      name:   alias.swallow-previous
+      scope:  global
+      value:  '!git reset --soft HEAD~$1 && git commit -m"$(git log   --format=%B  HEAD..HEAD@{1})"'
+
+  - module: git_config
+    parameters:
+      name:   alias.commit-again
+      scope:  global
+      value:  '!git commit -m"$(git log --format=%B  HEAD..HEAD@{1})"'
+
+  - module: git_config
+    parameters:
+      name:   alias.co
+      scope:  global
+      value:  checkout
