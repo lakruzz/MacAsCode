@@ -1,4 +1,4 @@
 #!/usr/bin/perl
 system("git pull");
-system("ansible-playbook macascode.yml");
+system("ansible-playbook macascode.yml --extra-vars 'manuscript=manuscripts/marcommachine.yml'");
 system("gem update");

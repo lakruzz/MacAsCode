@@ -9,15 +9,6 @@ installs:
     parameters:
       name:   google-chrome
 
-#  -
-#    module: homebrew_cask
-#    name:   slack
-#    state:  present
-#  -
-#    module: homebrew_cask
-#    name:   google-backup-and-sync
-#    state:  present
-
   - module: homebrew_cask
     parameters:
       name:   gimp
@@ -25,11 +16,6 @@ installs:
   - module: homebrew_cask
     parameters:
       name:   font-lato
-
-#  -
-#    module: homebrew_cask
-#    name:   virtualbox
-#    state:  present
 
   - module: homebrew
     parameters:
@@ -42,31 +28,10 @@ installs:
       name:   git
       state:  latest
 
-#  -
-#    module: homebrew
-#    name:   ansible
-#    state:  latest
-
   - module: homebrew
     parameters:
       name:   git-phlow
       state:  latest
-
-#  - module: homebrew
-#    name:   imagemagick
-#    state:  latest
-#  -
-#    module: homebrew
-#    name:   docker
-#    state:  latest
-#  -
-#    module: homebrew
-#    name:   docker-machine
-#    state:  latest
-#  -
-#    module: homebrew
-#    name:   docker-compose
-#    state:  latest
 
   - module: homebrew_tap
     parameters:
@@ -100,25 +65,19 @@ installs:
       scope:  global
       value:  add -A .
 
-#  -
-#    module: git_config
-#    name:   alias.swallow-previous
-#    scope:  global
-#    value:  '!git reset --soft HEAD~$1 && git commit -m"$(git log   --format=%B  HEAD..HEAD@{1})"'
-#  -
-#    module: git_config
-#    name:   alias.commit-again
-#    scope:  global
-#    value:  '!git commit -m"$(git log --format=%B  HEAD..HEAD@{1})"'
-
   - module: git_config
     parameters:
       name:   alias.co
       scope:  global
       value:  checkout
 
+  - module: git_config
+    parameters:
+      name: alias.pipeline
+      scope: global
+      value: '!open http://code.praqma.net/ci/view/Website_Pipelines/'
+
   - module: gem
     parameters:
       name:   github-pages
       state:  latest
-      
