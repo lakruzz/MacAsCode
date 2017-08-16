@@ -1,0 +1,56 @@
+---
+# ALERT
+# This manuscript assumes your're using zsh!
+
+installs:
+
+  - module: homebrew
+    parameters:
+      name:   go
+      state:  latest
+
+  - module: homebrew_cask
+    parameters:
+      name: gogland
+      state: present
+
+  - module: file
+    parameters:
+      path: ~/go/src/github.com/praqma
+      state: directory
+
+  - module: lineinfile
+    parameters:
+      path:   ~/.zshrc
+      state:  present
+      line:   export GOPATH=$HOME/go/
+
+  - module: lineinfile
+    parameters:
+      path:   ~/.zshrc
+      state:  present
+      line:   export GOBIN=$GOPATH/bin
+
+  - module: lineinfile
+    parameters:
+      path:   ~/.zshrc
+      state:  present
+      line:   export PATH=$PATH:$GOBIN
+
+  - module: git
+    parameters:
+      repo: git@github.com:Praqma/git-phlow.git
+      dest: ~/go/src/github.com/praqma/git-phlow
+      update: no
+
+  - module:  shell
+    shell: go get github.com/onsi/ginkgo/ginkgo
+    parameters:
+      chdir:  ~/go/src/github.com/praqma/git-phlow
+      creates: ~/go/src/github.com/onsi/ginkgo
+
+  - module:  shell
+    shell: go get -t ./...
+    parameters:
+      chdir:  ~/go/src/github.com/praqma/git-phlow
+      creates: ~/go/src/github.com/onsi/gomega

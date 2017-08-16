@@ -7,6 +7,18 @@
 
   tasks:
 
+    - name: File manipulations
+      file:
+        "{{ item.parameters }}"
+      become: "{{ item.become | default('false')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'file') | list }}"
+
+    - name: Git repos
+      git:
+        "{{ item.parameters }}"
+      become: "{{ item.become | default('false')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'git') | list }}"
+
     - name: Setup brew taps
       homebrew_tap:
         "{{ item.parameters }}"
@@ -32,7 +44,7 @@
       with_items: "{{ installs | selectattr('module', 'equalto', 'gem') | list }}"
 
     - name: Shell executions
-      shell: "{{ item.shell }} > {{ item.name }}.log"
+      shell: "{{ item.shell }}"
       args:
         "{{ item.parameters }}"
       become: "{{ item.become | default('false')}}"
