@@ -56,15 +56,16 @@ cd MacAsCode-master
 
 ## Run the default manuscript
 
-```shell
-ansible-playbook macascode.yml
-```
-It will run the manuscript defined in `./manuscripts/default.yml`.
 
-Or even simpler - if you have cloned the repo (as opposed to dowloaded the `.zip`)
+Run
+
 ```shell
-./update
+./womm --manuscript manuscripts/default-mac.yml
+# or simply
+
+./womm --help
 ```
+
 # The order in which task are executed
 
 Tasks are executed in group by module - within each group, task are executed in the order they appear in the manuscript.

@@ -1,6 +1,5 @@
 ---
 
-
 installs:
   - module: homebrew
     parameters:
@@ -8,106 +7,21 @@ installs:
       name:   ansible
       state:  latest
 
-  - module: homebrew
-    parameters:
-      name:   ruby
-      state:  latest
-
-  - module: homebrew_cask
-    parameters:
-      name:   atom
-
-  - module: homebrew_cask
-    parameters:
-      name:   google-chrome
-
-  - module: homebrew_cask
-    parameters:
-      name:   slack
-
-  - module: homebrew_cask
-    parameters:
-      name:   google-backup-and-sync
-
-  - module: homebrew_cask
-    parameters:
-      name:   caffeine
-
-  - module: homebrew_cask
-    parameters:
-      name:   sketchup
-
-  - module: homebrew_cask
-    parameters:
-      name:   font-lato
-      state:  present
-
-  - module: homebrew
-    parameters:
-      name:   ghi
-      state:  latest
-
-  - module: homebrew
+  - module:
     parameters:
       name:   git
       state:  latest
 
   - module: homebrew
     parameters:
-      name:   git-phlow
+      name:   ruby
       state:  latest
 
-  - module: homebrew
+  - module: shell
+    shell:  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     parameters:
-      name:   imagemagick
-      state:  latest
+      creates: /usr/local/bin/brew
 
-  - module: homebrew_tap
-    parameters:
-      name:   praqma/praqma-tap
-
-  - module: homebrew_tap
-    parameters:
-      name:   caskroom/fonts
-
-  - module: git_config
-    parameters:
-      name:   core.editor
-      scope:  global
-      value:  nano
-
-  - module: git_config
-    parameters:
-      name:   alias.tree
-      scope:  global
-      value:  log --graph --full-history --all --color --date=short   --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s   %C(bold)(%an)%Creset"
-
-  - module: git_config
-    parameters:
-      name:   alias.undo-commit
-      scope:  global
-      value:  reset --soft HEAD^
-
-  - module: git_config
-    parameters:
-      name:   alias.addremove
-      scope:  global
-      value:  add -A .
-
-  - module: git_config
-    parameters:
-      name:   alias.swallow-previous
-      scope:  global
-      value:  '!git reset --soft HEAD~$1 && git commit -m"$(git log   --format=%B  HEAD..HEAD@{1})"'
-
-  - module: git_config
-    parameters:
-      name:   alias.commit-again
-      scope:  global
-      value:  '!git commit -m"$(git log --format=%B  HEAD..HEAD@{1})"'
-
-  - module: git_config
-    parameters:
-      name:   alias.co
-      scope:  global
-      value:  checkout
+#  - module: shell
+#    shell:  gem update
+#    parameters:

@@ -1,0 +1,161 @@
+#!/usr/bin/perl
+require 5.14.0;
+use strict;                # http://perldoc.perl.org/strict.html
+use Carp;                  # http://perldoc.perl.org/Carp.html
+use Cwd;                   # http://perldoc.perl.org/Cwd.html
+use Getopt::Long;          # http://perldoc.perl.org/Getopt/Long.html
+use Pod::Usage;            # http://perldoc.perl.org/Pod/Usage.html
+use File::chdir;
+
+our %self = (
+  name       => 'womm',
+  desc       => 'Works On My Machine',
+  web        => 'https://github.com/lakruzz/MacAsCode',
+  issues     => 'https://github.com/lakruzz/MacAsCode/issues',
+  zip        => 'https://github.com/lakruzz/MacAsCode/archive/master.zip',
+  home       => '~/GitHub/Lakruzz/MacAsCode',
+);
+
+our %params = (
+  update     => 0,
+  install    => 1,
+  playbook   => './macascode.yml',
+  manuscript => '',
+  gist       => '',
+  verbose    => 0,
+  keep       => 0,
+  cache      => './gist'
+);
+
+undef $params{manuscript};
+undef $params{gist};
+
+GetOptions(
+  (
+		"update!"      => \$params{update},
+		"install!"     => \$params{install},
+		"playbook=s"   => \$params{playbook},
+		"manuscript=s" => \$params{manuscript},
+    "gist=s"       => \$params{gist},
+    "verbose!"     => \$params{verbose},
+    "keep!"        => \$params{keep},
+    "cache"        => \$params{cache},
+		"help"         => sub { pod2usage(-exitval => 0, -verbose => 2) }
+	)
+) || pod2usage(-exitval => 1, -verbose => 0);
+
+# Required parameters
+(defined($params{manuscript}) )
+|| pod2usage(-exitval => 1, -verbose => 0);
+
+$params{update} && do{ system("git pull") };
+
+system("ansible-playbook $params{playbook} --extra-vars 'manuscript=$params{manuscript}'");
+$params{update} && do{ system("gem update") };
+
+
+
+=pod
+
+=head1 NAME
+
+womm - Works On My Machine
+
+Installs anything that Ansible supports - Using simple manuscripts.
+
+=head1 SYNOPSIS
+
+womm --manuscript yaml-file [--[no-]update] [--[no-]install]  [--playbook yaml-file] [--gist gist-id] [--[no-]verbose] [--[no-]keep] [--cache dir]
+
+womm --help
+
+B<Example>
+
+  womm --manuscript marcommachine.yml
+
+Will run the default playbook using the marcommachine.yml manuscript
+
+
+=head1 OPTIONS
+
+The following switches exists and can all be overridden.
+
+=over 8
+
+=item B< C<< --manuscript yaml-file >> >
+
+Where C<yaml-file> is the name of the manuscript to run.
+
+This is a required parameter.
+
+=item B< C<< --[no-]update >> >
+
+Determins wether or not to update (C<git pull>) the repo before execution.
+
+Default is C<--no-update>
+
+=item B< C<< --[no-]install >> >
+
+Will install womm and the dependencies on your machine - if they are not
+already installed.
+
+Default is C<--install>
+
+=item B< C<< --playbook playbook >> >
+
+Use this setting to run a different ansible playbook than the default.
+
+The playbook will habe to be in the same folder as the (C<womm>) script
+
+Default is C<./macascode.yml>
+
+=item B< C<< --gist gist_id >> >
+
+Run the manuscript in the specified gist
+
+=item B< C<< --[no-]verbose >> >
+
+Will run in verbose mode.
+
+Default is C<--no-verbose>
+
+=item B< C<< --[no-]keep >> >
+
+Determins wether or not to keep files pulled from gist locally after
+the execution or not.
+
+Default is C<--no-keep>
+
+=item B< C<< --cache dir >> >
+
+Specifies the dir to use for pulling files from gists.
+
+Default is C<./gist>
+
+
+=item B< C<< --help >> >
+
+Prints the manual page.
+
+=back
+
+=head1 DESCRIPTION
+
+
+B<Copyright>
+
+L<Lars Kruse, 2017|http://github.com/lakruzz>
+
+B<License>
+
+L<GPLv3|https://www.gnu.org/licenses/gpl-3.0.en.html>
+
+B<Repository>
+
+L<lakruzz/MacAsCode|http://github.com/lakruzz/MacAsCode>
+
+B<Support>
+
+L<Use the issue system|http://github.com/lakruzz/MacAsCode/issues> in the repo.
+
+=cut
