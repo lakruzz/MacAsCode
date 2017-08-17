@@ -65,9 +65,9 @@ Installs anything that Ansible supports - Using simple manuscripts.
 
 =head1 SYNOPSIS
 
-B< C<<womm --manuscript yaml-file [--[no-]update] [--[no-]install]  [--playbook yaml-file] [--gist gist-id] [--[no-]verbose] [--[no-]keep] [--cache dir]>> >
+B< C<< womm --manuscript yaml-file [--[no-]update] [--[no-]install] [--playbook yaml-file] [--gist gist-id] [--[no-]verbose] [--[no-]keep] [--cache dir] >> >
 
-B< C<<womm --help>> >
+B< C<< womm --help >> >
 
 B<Example>
 
