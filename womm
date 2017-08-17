@@ -6,6 +6,7 @@ use Cwd;                   # http://perldoc.perl.org/Cwd.html
 use Getopt::Long;          # http://perldoc.perl.org/Getopt/Long.html
 use Pod::Usage;            # http://perldoc.perl.org/Pod/Usage.html
 use File::chdir;
+use File::Basename;
 
 our %self = (
   name       => 'womm',
@@ -15,6 +16,11 @@ our %self = (
   zip        => 'https://github.com/lakruzz/MacAsCode/archive/master.zip',
   home       => '~/GitHub/Lakruzz/MacAsCode',
 );
+
+($self{filename},$self{path},$self{suffix}) = fileparse(Cwd::abs_path($0));
+use lib "$self{path}..";
+
+use modules::cmd;
 
 our %params = (
   update     => 0,
@@ -45,13 +51,24 @@ GetOptions(
 ) || pod2usage(-exitval => 1, -verbose => 0);
 
 # Required parameters
-(defined($params{manuscript}) )
-|| pod2usage(-exitval => 1, -verbose => 0);
+(defined($params{manuscript}) ) || pod2usage(-exitval => 1, -verbose => 0);
 
-$params{update} && do{ system("git pull") };
+our $cmd = cmd->new();
 
-system("ansible-playbook $params{playbook} --extra-vars 'manuscript=$params{manuscript}'");
-$params{update} && do{ system("gem update") };
+
+$params{update} && do{
+  $cmd->exec(command => "git pull",
+             verbose => $params{verbose})
+};
+
+
+$cmd->exec(
+  command => "ansible-playbook $params{playbook} --extra-vars 'manuscript=$params{manuscript}'",
+  system => 1,
+  verbose => $params{verbose}
+);
+
+
 
 
 
