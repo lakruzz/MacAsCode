@@ -1,0 +1,22 @@
+---
+# ALERT
+# This manuscript assumes your're using zsh!
+
+installs:
+
+  - module: homebrew
+    parameters:
+      name:   npm
+      state:  latest
+
+  - module: git
+    parameters:
+      repo: git@github.com:Praqma/maturity-model.git
+      dest: ~/GitHub/Praqma/maturity-model
+      update: no
+
+  - module:  shell
+    shell: npm install
+    parameters:
+      chdir:  ~/GitHub/Praqma/maturity-model
+      creates: ~/GitHub/Praqma/maturity-model/node_modules
