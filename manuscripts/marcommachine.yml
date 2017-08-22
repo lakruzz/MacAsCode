@@ -33,6 +33,11 @@ installs:
       name:   git-phlow
       state:  latest
 
+  - module: homebrew
+    parameters:
+      name:   bower
+      state:  latest
+
   - module: homebrew_tap
     parameters:
       name: praqma/praqma-tap
