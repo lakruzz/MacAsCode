@@ -25,6 +25,11 @@ installs:
 
   - module: homebrew
     parameters:
+      name:   ruby
+      state:  latest
+
+  - module: homebrew
+    parameters:
       name:   git
       state:  latest
 
