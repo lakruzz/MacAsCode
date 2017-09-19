@@ -22,6 +22,17 @@ installs:
     parameters:
       creates: /usr/local/bin/brew
 
-#  - module: shell
-#    shell:  gem update
-#    parameters:
+  - module: homebrew_cask
+    parameters:
+      name:   slack
+      state:  present
+
+  - module: homebrew_cask
+    parameters:
+      name:   google-backup-and-sync
+      state:  present
+
+  - module: homebrew_cask
+    parameters:
+      name:   caffeine
+      state:  present
