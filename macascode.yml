@@ -50,6 +50,13 @@
       become: "{{ item.become | default('false')}}"
       with_items: "{{ installs | selectattr('module', 'equalto', 'shell') | list }}"
 
+    - name: Command executions
+      command: "{{ item.command }}"
+      args:
+        "{{ item.parameters }}"
+      become: "{{ item.become | default('false')}}"
+      with_items: "{{ installs | selectattr('module', 'equalto', 'command') | list }}"
+
     - name: Configure git
       git_config:
         "{{ item.parameters }}"

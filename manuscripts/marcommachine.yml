@@ -5,6 +5,11 @@ installs:
     parameters:
       name:   atom
 
+  - module:  shell
+    shell: apm install language-markdown
+    parameters:
+      creates:  ~/.atom/packages/language-markdown
+
   - module: homebrew_cask
     parameters:
       name:   google-chrome

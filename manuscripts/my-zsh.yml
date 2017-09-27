@@ -3,9 +3,14 @@
 
 installs:
   - module:  shell
+    shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     parameters:
-      executable: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
       creates:    ~/.oh-my-zsh/oh-my-zsh.sh
+
+  - module:  shell
+    shell: apm install language-markdown
+    parameters:
+      creates:  ~/.atom/packages/language-markdown
 
   - module: lineinfile
     parameters:
