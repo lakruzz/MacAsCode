@@ -1,0 +1,53 @@
+---
+
+  - module: homebrew
+    parameters:
+      name:   ghi
+      state:  latest
+      update_homebrew: yes
+
+  - module: homebrew
+    parameters:
+      name:   git
+      state:  latest
+
+  - module: homebrew
+    parameters:
+      name:   git-phlow
+      state:  latest
+
+  - module: git_config
+    parameters:
+      name:   core.editor
+      scope:  global
+      value:  nano
+
+  - module: git_config
+    parameters:
+      name:   push.default
+      scope:  global
+      value:  current
+
+  - module: git_config
+    parameters:
+      name:   alias.tree
+      scope:  global
+      value:  log --graph --full-history --all --color --date=short   --pretty=format:"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s   %C(bold)(%an)%Creset"
+
+  - module: git_config
+    parameters:
+      name:   alias.undo-commit
+      scope:  global
+      value:  reset --soft HEAD^
+
+  - module: git_config
+    parameters:
+      name:   alias.addremove
+      scope:  global
+      value:  add -A .
+
+  - module: git_config
+    parameters:
+      name:   alias.co
+      scope:  global
+      value:  checkout
