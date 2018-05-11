@@ -1,0 +1,39 @@
+---
+
+installs:
+  - module: homebrew_cask
+    parameters:
+      name:   atom
+
+  - module:  shell
+    shell: apm install language-markdown
+    parameters:
+      creates:  ~/.atom/packages/language-markdown
+
+  - module: homebrew_cask
+    parameters:
+      name:   google-chrome
+
+  - module: homebrew_cask
+    parameters:
+      name:   gimp
+
+  - module: homebrew
+    parameters:
+      name:   ghi
+      state:  latest
+      update_homebrew: yes
+
+  - module: homebrew
+    parameters:
+      name:   git
+      state:  latest
+
+  - module: homebrew
+    parameters:
+      name:   git-phlow
+      state:  latest
+
+  - module: homebrew_tap
+    parameters:
+      name: praqma/praqma-tap
