@@ -7,11 +7,6 @@ installs:
     parameters:
       creates:    ~/.oh-my-zsh/oh-my-zsh.sh
 
-  - module:  shell
-    shell: apm install language-markdown
-    parameters:
-      creates:  ~/.atom/packages/language-markdown
-
   - module: lineinfile
     parameters:
       path:   ~/.zshrc
