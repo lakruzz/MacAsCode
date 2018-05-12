@@ -1,5 +1,7 @@
 ---
 
+installs:
+
   - module: homebrew
     parameters:
       name:   ghi
