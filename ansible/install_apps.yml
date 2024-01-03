@@ -6,11 +6,6 @@
    
 
   tasks:
-    - name: Use ignore-pinned option while upgrading all
-      community.general.homebrew:
-        upgrade_all: true
-        upgrade_options: ignore-pinned
-
     - name: Install Visual Studio Code
       community.general.homebrew:
         name: visual-studio-code
@@ -20,7 +15,6 @@
         - result.failed
         - "'already installed' not in result.msg"
 
- 
     - name: Install GIMP
       community.general.homebrew:
         name: gimp
@@ -56,4 +50,9 @@
       community.general.homebrew:
         name: gh
         state: latest
+
+    - name: Use ignore-pinned option while upgrading all
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options: ignore-pinned
  
