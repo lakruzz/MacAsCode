@@ -1,0 +1,69 @@
+---
+
+- name: Install apps as Homebrew roles
+  hosts: localhost
+  gather_facts: no
+   
+  roles:
+    - role: homebrew_install
+      vars:
+        package: visual-studio-code
+
+    - role: homebrew_install
+      vars:
+        package: gimp
+
+    - role: homebrew_install
+      vars:
+        package: caffeine
+
+    - role: homebrew_install
+      vars:
+        package: google-chrome
+
+    - role: homebrew_install
+      vars:
+        package: microsoft-edge
+
+    - role: homebrew_install
+      vars:
+        package: git
+
+    - role: homebrew_install
+      vars:
+        package: gh
+
+    - role: homebrew_install
+      vars:
+        package: ansible-lint
+
+    - role: homebrew_install
+      vars:
+        package: python
+
+    - role: homebrew_install
+      vars:
+        package: microsoft-word
+
+    - role: homebrew_install
+      vars:
+        package: microsoft-excel
+ 
+    - role: homebrew_install
+      vars:
+        package: microsoft-powerpoint
+  
+    - role: homebrew_install
+      vars:
+        package: microsoft-outlook
+  
+    - role: homebrew_install
+      vars:
+        package: microsoft-teams      
+
+  tasks:
+    - name: Use ignore-pinned option while upgrading all
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options: ignore-pinned
+ 

@@ -1,0 +1,59 @@
+---
+
+- name: Install apps with Homebrew
+  hosts: localhost
+  gather_facts: no
+   
+
+  tasks:
+    - name: Use ignore-pinned option while upgrading all
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options: ignore-pinned
+
+    - name: Install Visual Studio Code
+      community.general.homebrew:
+        name: visual-studio-code
+        state: latest
+      register: result
+      failed_when:
+        - result.failed
+        - "'already installed' not in result.msg"
+
+ 
+    - name: Install GIMP
+      community.general.homebrew:
+        name: gimp
+        state: latest
+      register: result
+      failed_when: 
+        - result.failed
+        - "'already installed' not in result.msg"
+
+    - name: Install caffeine
+      community.general.homebrew:
+        name: caffeine
+        state: latest
+      register: result
+      failed_when: "'already installed' not in result.msg"
+
+    - name: Install Google Chrome
+      community.general.homebrew:
+        name: google-chrome
+        state: latest
+ 
+    - name: Install Microsoft Edge
+      community.general.homebrew:
+        name: microsoft-edge
+        state: leates
+ 
+    - name: Install Git
+      community.general.homebrew:
+        name: git
+        state: latest
+ 
+    - name: Install GitHub CLI
+      community.general.homebrew:
+        name: gh
+        state: latest
+ 

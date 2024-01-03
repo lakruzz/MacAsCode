@@ -1,0 +1,8 @@
+- name: "Install {{package}} with Homebrew"
+  community.general.homebrew:
+    name: "{{ package }}"
+    state: latest
+  register: result
+  failed_when:
+    - result.failed
+    - "'already installed' not in result.msg"
