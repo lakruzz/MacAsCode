@@ -1,0 +1,37 @@
+---
+
+- name: Install apps as Homebrew roles
+  hosts: localhost
+  gather_facts: no
+   
+  roles:
+    - role: homebrew_install
+      vars:
+        package: microsoft-edge
+
+    - role: homebrew_install
+      vars:
+        package: microsoft-word
+
+    - role: homebrew_install
+      vars:
+        package: microsoft-excel
+ 
+    - role: homebrew_install
+      vars:
+        package: microsoft-powerpoint
+  
+    - role: homebrew_install
+      vars:
+        package: microsoft-outlook
+  
+    - role: homebrew_install
+      vars:
+        package: microsoft-teams      
+
+  tasks:
+    - name: Use ignore-pinned option while upgrading all
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options: ignore-pinned
+ 
